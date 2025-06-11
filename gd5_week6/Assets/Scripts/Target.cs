@@ -38,12 +38,11 @@ public class Target : MonoBehaviour
         gameManager.UpdateScore(pointValue, livesChange);
 
         if(gameManager.lives <= 0)
-        {
+        { 
             gameManager.GameOver();
         }
         Destroy(gameObject);
         //update the score
         //update the lives
     }
-
 }
