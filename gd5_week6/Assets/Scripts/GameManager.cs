@@ -8,22 +8,23 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> targets;
-    float spawnRate = 1;
+    float spawnRate = 2;
 
     [SerializeField] int score = 5;
     public int lives = 3;
     public TMP_Text scoreText , livesText, gameOverScoreText, highScoreText;
 
-    public GameObject gameOverUI, inGameUI;
+    public GameObject gameOverUI, inGameUI, titleUI;
     public bool isGameActive = true;
+
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine(SpawnTargets());
+        
 
-        scoreText.text = "Score " + score;
+       
     }
 
     IEnumerator SpawnTargets()
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(spawnRate);
             int index = Random.Range(0, targets.Count);
             Instantiate(targets[index]);
-            spawnRate = Random.Range(0.5f, 1);
+            
         }
     }
 
@@ -63,5 +64,21 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void StartGame(int difficulty)
+    {
+        StartCoroutine(SpawnTargets());
+        score = 0;
+        lives = 5;
+
+        scoreText.text = "Score " + score;
+        livesText.text = "Lives " + lives;
+
+        titleUI.SetActive(false);
+        inGameUI.SetActive(true);
+
+        spawnRate /= difficulty;
+
     }
 }
